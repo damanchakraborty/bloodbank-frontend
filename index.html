@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>BloodBank | Inventory Management</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="login-wrap" id="login-screen">
+    <section class="login-card">
+      <div class="brand-mark">+</div>
+      <p class="eyebrow">MIT-WPU · BLOOD SERVICES</p>
+      <h1>BloodBank</h1>
+      <p class="muted">Cloud-based blood bank inventory management</p>
+      <div id="google-button"></div>
+      <p class="hint">Sign in with your <b>@mitwpu.edu.in</b> account.</p>
+      <p class="error" id="login-error" role="alert"></p>
+    </section>
+  </div>
+
+  <div class="app-shell hidden" id="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark small">+</span><span>BloodBank</span></div>
+      <div class="side-label">WORKSPACE</div>
+      <nav id="navigation">
+        <button class="nav-link active" data-page="dashboard">▦ <span>Dashboard</span></button>
+        <button class="nav-link" data-page="donors">♙ <span>Donors</span></button>
+        <button class="nav-link" data-page="blood-units">▤ <span>Blood units</span></button>
+        <button class="nav-link" data-page="inventory">▥ <span>Inventory</span></button>
+        <button class="nav-link" data-page="thresholds">⚙ <span>Thresholds</span></button>
+        <button class="nav-link" data-page="alerts">⚑ <span>Alerts</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="signed-in"><span class="online-dot"></span><span id="user-email">Signed in</span></div>
+        <button class="logout" id="logout-button">Sign out ↗</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><p class="eyebrow">INVENTORY OPERATIONS</p><h2 id="page-title">Dashboard</h2></div>
+        <div class="top-actions"><span class="status-pill"><i></i> Connected session</span><button class="icon-button" id="refresh-button" title="Refresh">↻</button></div>
+      </header>
+      <div class="notice hidden" id="notice" role="status"></div>
+      <section id="page-content" aria-live="polite"></section>
+      <footer>BloodBank · MIT-WPU <span>Manage records responsibly.</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>
