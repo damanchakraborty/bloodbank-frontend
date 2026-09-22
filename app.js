@@ -382,8 +382,8 @@ const total = groups.reduce((sum, [, count]) => sum + count, 0);
                   <span>${esc(n)} units</span>
                   <div class="progress">
                     <span style="width:${
-                      total ? Math.min(100, n / total * 100) : 0
-                    }%"></span>
+                      Math.min(100, (n / 100) * 100)
+                    }%;background:#dc2626"></span>
                   </div>
                 </div>
               `).join("")}
