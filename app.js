@@ -383,7 +383,7 @@ const total = groups.reduce((sum, [, count]) => sum + count, 0);
                   <div class="progress">
                     <span style="width:${
                       Math.min(100, (n / 100) * 100)
-                    }%;background:#dc2626"></span>
+                    }%;background:#dc2626 !important"></span>
                   </div>
                 </div>
               `).join("")}
