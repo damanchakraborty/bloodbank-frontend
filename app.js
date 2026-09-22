@@ -284,22 +284,39 @@ function renderDashboard() {
       .includes("acknowledged")
   ).length;
 
-  const inventory = cache.inventory;
-  const bloodCounts = {};
+  const inventory = cache.inventory || [];
 
-  inventory.forEach(item => {
-    const type = getAny(
-      item,
-      ["blood_type", "blood_group", "type"],
-      "Other"
-    );
+const bloodGroups = [
+  "A-", "A+", "AB-", "AB+",
+  "B-", "B+", "O-", "O+"
+];
 
-    bloodCounts[type] =
-      Number(getAny(item, ["units", "quantity", "total_units", "count"], 0)) || 0;
-  });
+const bloodCounts = Object.fromEntries(
+  bloodGroups.map(group => [group, 0])
+);
 
-  const groups = Object.entries(bloodCounts);
-  const total = groups.reduce((sum, [, n]) => sum + n, 0);
+inventory.forEach(item => {
+  const type = getAny(
+    item,
+    ["blood_group", "blood_type", "type"],
+    null
+  );
+
+  const count = Number(
+    getAny(item, ["available_units", "units", "quantity", "total_units", "count"], 0)
+  ) || 0;
+
+  if (type && Object.prototype.hasOwnProperty.call(bloodCounts, type)) {
+    bloodCounts[type] += count;
+  }
+});
+
+const groups = bloodGroups.map(group => [
+  group,
+  bloodCounts[group]
+]);
+
+const total = groups.reduce((sum, [, count]) => sum + count, 0);
 
   const cards = `
     <div class="stats-grid">
