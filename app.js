@@ -1,4 +1,3 @@
-
 /*
  * BloodBank frontend
  * Google Sign-In + MIT-WPU email restriction
@@ -310,6 +309,30 @@ inventory.forEach(item => {
     bloodCounts[type] += count;
   }
 });
+
+// The /inventory endpoint doesn't always return usable per-group
+// stock (it may be empty or use field names we don't recognize),
+// which left this panel stuck at zero even though blood units exist.
+// When the inventory response yields nothing, fall back to counting
+// blood units directly so the panel reflects real data.
+const inventoryTotalFromApi = bloodGroups.reduce(
+  (sum, group) => sum + bloodCounts[group],
+  0
+);
+
+if (inventoryTotalFromApi === 0 && cache.units.length) {
+  cache.units.forEach(unit => {
+    const status = String(getAny(unit, ["status"], "")).toLowerCase();
+
+    if (status && status !== "available") return;
+
+    const type = getAny(unit, ["blood_group", "blood_type"], null);
+
+    if (type && Object.prototype.hasOwnProperty.call(bloodCounts, type)) {
+      bloodCounts[type] += 1;
+    }
+  });
+}
 
 const groups = bloodGroups.map(group => [
   group,
